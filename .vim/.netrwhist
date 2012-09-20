@@ -1,6 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/Users/dparfitt/basho/basho_bench/log'
-let g:netrw_dirhist_2='/Users/dparfitt/basho/basho_bench'
-let g:netrw_dirhist_3='/Users/dparfitt/basho/basho_bench/src'
-let g:netrw_dirhist_4='/Users/dparfitt/basho/riak-erlang-http-client/deps/riakc'
