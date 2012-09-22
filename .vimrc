@@ -4,7 +4,7 @@ set history=1000
 set encoding=utf-8
 set showmatch
 set mat=5
-
+set laststatus=2   " Always show the statusline
 set backspace=2
 set modeline
 set modelines=5
@@ -13,8 +13,11 @@ set ignorecase
 set smartcase
 set nonumber
 
+set t_Co=256
+
 " colorscheme Monokai
 colorscheme wombat
+" colorscheme desert
 
 syntax enable
 set ruler
@@ -108,7 +111,7 @@ map <F6> :botright copen<CR>
 set guioptions-=T  "remove toolbar
 set guifont=Menlo\ for\ Powerline
 let g:Powerline_symbols = 'fancy'
-
+call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
 
 highlight Cursor guifg=black guibg=yellow
 " :autocmd FileType qf wincmd J
