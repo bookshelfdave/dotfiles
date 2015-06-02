@@ -1,6 +1,39 @@
-call pathogen#infect()
-set history=1000
+"execute pathogen#infect()
+"call pathogen#helptags()
 
+" Vundle
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'gmarik/Vundle.vim'
+Plugin 'blerins/flattown'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'scrooloose/nerdtree'
+Plugin 'edkolev/tmuxline.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'bling/vim-airline'
+Plugin 'nathanaelkane/vim-indent-guides'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'jimenezrick/vimerl'
+Plugin 'tpope/vim-fugitive'
+Plugin 'mileszs/ack.vim'
+Plugin 'ervandew/supertab'
+Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'markdown'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'Rykka/riv.vim'
+
+
+call vundle#end()
+filetype plugin indent on
+
+set history=1000
+set t_Co=256
 set encoding=utf-8
 set showmatch
 set mat=5
@@ -12,12 +45,9 @@ set modelines=5
 set ignorecase
 set smartcase
 set nonumber
+set mouse=a
+set clipboard=unnamed
 
-set t_Co=256
-
-" colorscheme Monokai
-colorscheme wombat
-" colorscheme desert
 
 syntax enable
 set ruler
@@ -37,9 +67,9 @@ set si
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
-set noexpandtab
+set expandtab
 set shiftround
-set smarttab
+" set smarttab
 
 set hidden
 
@@ -47,24 +77,8 @@ set hidden
 "set listchars=tab:°,,eol:°,trail:·,extends:#
 
 set listchars=tab:»»,trail:·,extends:#
-set list
-"
-"
-" function to only add tabs at the beginning
-" " of the line, use spaces elsewhere so that if
-" " tabstop changes, the non-indent formatting is
-" " maintained
-"function AddTab()
-"	let line = getline('.')
-"	let pos = col('.')
-"	if col('.') == 1 || strpart(line, 0, pos-1) =~ '^\t*$' || line =~ '^$'
-"		return "\t"
-"	else
-"		return repeat(" ", &tabstop)
-"	endif
-"endfunction
-""
-"imap <silent> <Tab> <C-r>=AddTab()<CR>"
+" set list
+set showbreak=↪
 
 " Global tracker var
 let g:HighlightLongLines = 0 "set to 0 so we can run it to enable
@@ -91,33 +105,83 @@ endfunction
  au BufNewFile,BufRead **/*.erl :set expandtab tabstop=4 shiftwidth=4 tw=78
  au BufNewFile,BufRead **/*.erl :call ToggleHighlightLongLines()
 "
-"
-" Change to working directory
 autocmd BufEnter * cd %:p:h"
 
-" Haskell stuff
-au BufEnter *.hs compiler ghc
-let g:haddock_browser = "/usr/bin/google-chrome"
-let g:ghc = "/usr/bin/ghc"
+if has('gui_running')
+    colorscheme flattown
+    let g:airline_theme='flattown'
+else
+  "colorscheme Monokai
+  colorscheme flattown
+  let g:airline_theme='flattown'
+endif
 
-map <F2> :call ToggleHighlightLongLines()<CR>
-nnoremap <F4> :NERDTreeToggle<CR>
-nnoremap <F3> :TagbarToggle<CR>
-map <C-X> :Bufferlist<CR>
-
-" map <F5> :call TMiniBufExplorer()<CR>
-map <F6> :botright copen<CR>
 
 set guioptions-=T  "remove toolbar
 set guifont=Menlo\ for\ Powerline
-let g:Powerline_symbols = 'fancy'
-call Pl#Theme#InsertSegment('ws_marker', 'after', 'lineinfo')
+"let g:Powerline_symbols = 'fancy'
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
-highlight Cursor guifg=black guibg=yellow
-" :autocmd FileType qf wincmd J
 
-set wildchar=<Tab> wildmenu wildmode=full
-set wildcharm=<C-Z>
-nnoremap <F10> :b <C-Z>
+set cursorline
+"hi CursorLine cterm=NONE ctermbg=darkred ctermfg=white guibg=darkgray guifg=white
 
+"augroup CursorLine
+"  au!
+"  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"  au WinLeave * setlocal nocursorline
+"augroup END
+
+map <F2> :call ToggleHighlightLongLines()<CR>
+"nnoremap <C-N> :NERDTreeToggle<CR>
+nnoremap <F3> :TagbarToggle<CR>
+map <silent> <C-X> :Bufferlist<CR>
+
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+
+"set rtp+=/usr/local/go/misc/vim
+if exists("g:did_load_filetypes")
+    filetype off
+    filetype plugin indent off
+endif
+set rtp+=/usr/local/Cellar/go/1.3/libexec/misc/vim
+filetype plugin indent on
+syntax on
+
+map <F4> :e %:p:s,.h$,.X123X,:s,.cpp$,.h,:s,.X123X$,.cpp,<CR>
+set wildignore+=*/tmp/*,*.so,*.beam,*.zip
+"let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+"let g:ctrlp_custom_ignore = {
+"  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
+"  \ 'file': '\v\.(beam|so|dll)$'
+"  \ }
+"set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+
+let g:dash_map = {
+        \ 'erlang' : 'erl'
+        \ }
+
+
+let NERDTreeIgnore = ['\.o$', '\.lo$']
+let NERDTreeShowHidden=1
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
+
+
+"silent! map <F3> :NERDTreeFind<CR>
+"let g:NERDTreeMapActivateNode="<F9>"
+"let g:NERDTreeMapPreview="<F8>"
+
+"let @q='f"a>>,,i<<'
+
+
+silent! nmap <C-\> :NERDTreeTabsToggle<CR>
+set grepprg=ack\ --nogroup\ --column\ $*
+au BufRead,BufNewFile *.citrus set filetype=citrus
 

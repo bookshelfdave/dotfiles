@@ -1,9 +1,11 @@
 ========
+dotfiles
 ========
 
+#License
 
-This repository has been created with Octogit.
+http://www.apache.org/licenses/LICENSE-2.0.html
 
+---
 
-.. image:: http://myusuf3.github.com/octogit/assets/img/readme_image.png
-
+© 2015 Dave Parfitt
