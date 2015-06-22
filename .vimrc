@@ -27,6 +27,7 @@ Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'markdown'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'Rykka/riv.vim'
+Plugin 'dleonard0/pony-vim-syntax.git'
 
 
 call vundle#end()
@@ -174,14 +175,11 @@ let NERDTreeShowHidden=1
 autocmd FileType go autocmd BufWritePre <buffer> Fmt
 
 
-"silent! map <F3> :NERDTreeFind<CR>
-"let g:NERDTreeMapActivateNode="<F9>"
-"let g:NERDTreeMapPreview="<F8>"
-
-"let @q='f"a>>,,i<<'
-
-
+" leader is \
 silent! nmap <C-\> :NERDTreeTabsToggle<CR>
+silent! nmap <leader>t :NERDTreeTabsToggle<CR>
 set grepprg=ack\ --nogroup\ --column\ $*
 au BufRead,BufNewFile *.citrus set filetype=citrus
 
+nmap <leader>p :setlocal paste! paste?<cr>
+nmap <leader>n :setlocal number! number?<cr>
