@@ -29,7 +29,7 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'dleonard0/pony-vim-syntax.git'
 Plugin 'majutsushi/tagbar'
 Plugin 'mhinz/vim-startify'
-Plugin 'vim-scripts/ZoomWin'
+Plugin 'regedarek/ZoomWin'
 
 call vundle#end()
 filetype plugin indent on
