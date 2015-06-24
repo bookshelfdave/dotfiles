@@ -26,9 +26,9 @@ Plugin 'ervandew/supertab'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'markdown'
 Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'Rykka/riv.vim'
 Plugin 'dleonard0/pony-vim-syntax.git'
-
+Plugin 'majutsushi/tagbar'
+Plugin 'mhinz/vim-startify'
 
 call vundle#end()
 filetype plugin indent on
@@ -56,8 +56,6 @@ set ruler
 filetype plugin on
 filetype indent on
 
-autocmd vimenter * if !argc() | NERDTree | endif
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 augroup filetype
    au! BufRead,BufNewFile *.proto setfiletype proto
@@ -178,8 +176,12 @@ autocmd FileType go autocmd BufWritePre <buffer> Fmt
 " leader is \
 silent! nmap <C-\> :NERDTreeTabsToggle<CR>
 silent! nmap <leader>t :NERDTreeTabsToggle<CR>
+nnoremap <leader>b :TagbarToggle<CR>
 set grepprg=ack\ --nogroup\ --column\ $*
 au BufRead,BufNewFile *.citrus set filetype=citrus
 
 nmap <leader>p :setlocal paste! paste?<cr>
 nmap <leader>n :setlocal number! number?<cr>
+
+"autocmd vimenter * if !argc() | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
