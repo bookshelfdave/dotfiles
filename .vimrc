@@ -1,5 +1,4 @@
-"execute pathogen#infect()
-"call pathogen#helptags()
+" git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 " Vundle
 
