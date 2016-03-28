@@ -27,7 +27,6 @@ Plugin 'ervandew/supertab'
 Plugin 'ntpeters/vim-better-whitespace'
 "Plugin 'markdown'
 Plugin 'jistr/vim-nerdtree-tabs'
-"Plugin 'dleonard0/pony-vim-syntax.git'
 Plugin 'majutsushi/tagbar'
 Plugin 'mhinz/vim-startify'
 Plugin 'regedarek/ZoomWin'
@@ -36,6 +35,7 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'rizzatti/dash.vim'
 Plugin 'powerman/vim-plugin-AnsiEsc'
+Plugin 'gcmt/taboo.vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -56,6 +56,7 @@ set nonumber
 set mouse=a
 set clipboard=unnamed
 set formatoptions-=tc
+set colorcolumn=80
 
 syntax enable
 set ruler
@@ -114,8 +115,9 @@ augroup end
     autocmd BufEnter * cd %:p:h"
 
     if has('gui_running')
-        colorscheme flattown
-        let g:airline_theme='flattown'
+        colorscheme Tomorrow
+        "let g:airline_theme='flattown'
+        let g:airline_theme='bubblegum'
     else
         "colorscheme Monokai
         colorscheme flattown
@@ -127,19 +129,17 @@ augroup end
     set guifont=Menlo\ for\ Powerline
     "let g:Powerline_symbols = 'fancy'
     let g:airline_powerline_fonts = 1
+    let g:airline#extensions#tabline#fnamemod = ':p:.'
     let g:airline#extensions#tabline#enabled = 1
     "let g:airline#extensions#tabline#left_sep = ' '
-    let g:airline#extensions#tabline#left_alt_sep = '|'
-    let g:airline#extensions#tabline#fnamemod = ':t'
+    "let g:airline#extensions#tabline#left_alt_sep = '|'
+    "let g:airline#extensions#tabline#fnamemod = ':t'
 
     set cursorline
-    "hi CursorLine cterm=NONE ctermbg=darkred ctermfg=white guibg=darkgray guifg=white
+    hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+    hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=darkred guifg=white
+    nnoremap <Leader>c :set cursorcolumn!<CR>
 
-    "augroup CursorLine
-    "  au!
-    "  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-    "  au WinLeave * setlocal nocursorline
-    "augroup END
 
     map <F2> :call ToggleHighlightLongLines()<CR>
     "nnoremap <C-N> :NERDTreeToggle<CR>
@@ -166,8 +166,9 @@ augroup end
     "  \ 'file': '\v\.(beam|so|dll)$'
     "  \ }
     "set runtimepath^=~/.vim/bundle/ctrlp.vim
+    "
     let g:ctrlp_map = '<c-p>'
-    let g:ctrlp_cmd = 'CtrlP'
+    let g:ctrlp_cmd = 'CtrlPBuffer'
     let g:ctrlp_working_path_mode = 'ra'
 
     let g:dash_map = {
@@ -216,16 +217,18 @@ augroup end
 
 
 
-let g:tagbar_type_rust = {
-    \ 'ctagstype' : 'rust',
-    \ 'kinds' : [
-        \'T:types,type definitions',
-        \'f:functions,function definitions',
-        \'g:enum,enumeration names',
-        \'s:structure names',
-        \'m:modules,module names',
-        \'c:consts,static constants',
-        \'t:traits,traits',
-        \'i:impls,trait implementations',
-    \]
-    \}
+    let g:tagbar_type_rust = {
+                \ 'ctagstype' : 'rust',
+                \ 'kinds' : [
+                \'T:types,type definitions',
+                \'f:functions,function definitions',
+                \'g:enum,enumeration names',
+                \'s:structure names',
+                \'m:modules,module names',
+                \'c:consts,static constants',
+                \'t:traits,traits',
+                \'i:impls,trait implementations',
+                \]
+                \}
+
+
