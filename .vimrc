@@ -16,6 +16,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'edkolev/tmuxline.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'airblade/vim-gitgutter'
 "Plugin 'jimenezrick/vimerl'
@@ -231,4 +232,17 @@ augroup end
                 \]
                 \}
 
+
+silent! nmap <C-w>z :ZoomWin<CR>
+
+" http://stackoverflow.com/questions/4896003/how-do-i-stop-vim-from-auto-creating-comments-on-enter-press
+" buggy:
+"inoremap <expr> <enter> getline('.') =~ '^\s*//' ? '<enter><esc>S' : '<enter>'
+nnoremap <expr> O getline('.') =~ '^\s*//' ? 'O<esc>S' : 'O'
+nnoremap <expr> o getline('.') =~ '^\s*//' ? 'o<esc>S' : 'o'
+
+let g:taboo_tab_format = "∴ %P/%f%m "
+let g:taboo_renamed_tab_format = "∴ %P/%f%m "
+
+hi TabLineSel guifg=White guibg=DarkGray
 
