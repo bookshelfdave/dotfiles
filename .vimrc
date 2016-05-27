@@ -26,17 +26,18 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'mileszs/ack.vim'
 Plugin 'ervandew/supertab'
 Plugin 'ntpeters/vim-better-whitespace'
-"Plugin 'markdown'
 Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'majutsushi/tagbar'
 Plugin 'mhinz/vim-startify'
 Plugin 'regedarek/ZoomWin'
 Plugin 'scrooloose/syntastic'
 Plugin 'rust-lang/rust.vim'
 Plugin 'Chiel92/vim-autoformat'
-Plugin 'rizzatti/dash.vim'
-Plugin 'powerman/vim-plugin-AnsiEsc'
+"Plugin 'rizzatti/dash.vim'
+"Plugin 'powerman/vim-plugin-AnsiEsc'
 Plugin 'gcmt/taboo.vim'
+Plugin 'tpope/vim-unimpaired'
 
 call vundle#end()
 filetype plugin indent on
@@ -117,6 +118,7 @@ augroup end
 
     if has('gui_running')
         colorscheme Tomorrow
+        "colorscheme flattown
         "let g:airline_theme='flattown'
         let g:airline_theme='bubblegum'
     else
@@ -179,11 +181,27 @@ augroup end
 
     let NERDTreeIgnore = ['\.o$', '\.lo$', '\.swp$']
     let NERDTreeShowHidden=1
+
+
+    let g:NERDTreeIndicatorMapCustom = {
+        \ "Modified"  : "✹",
+        \ "Staged"    : "✚",
+        \ "Untracked" : "✭",
+        \ "Renamed"   : "➜",
+        \ "Unmerged"  : "═",
+        \ "Deleted"   : "✖",
+        \ "Dirty"     : "✗",
+        \ "Clean"     : "✔︎",
+        \ "Unknown"   : "?"
+        \ }
+
+
     autocmd FileType go autocmd BufWritePre <buffer> Fmt
 
 
     " leader is \
     silent! nmap <C-\> :NERDTreeTabsToggle<CR>
+    silent! nmap <leader>f :RustFmt<CR>
     silent! nmap <leader>t :NERDTreeTabsToggle<CR>
     silent! nmap <leader>x :CtrlPBuffer<CR>
     nnoremap <leader>b :TagbarToggle<CR>
@@ -211,7 +229,7 @@ augroup end
     let g:formatdef_rustfmt = '"rustfmt"'
     let g:formatters_rust = ['rustfmt']
 
-    nmap <Leader>f :Autoformat<CR>
+    "nmap <Leader>f :Autoformat<CR>
     "au BufWrite * :Autoformat
     "
     :nmap <silent> <leader>d <Plug>DashSearch
@@ -245,4 +263,11 @@ let g:taboo_tab_format = "∴ %P/%f%m "
 let g:taboo_renamed_tab_format = "∴ %P/%f%m "
 
 hi TabLineSel guifg=White guibg=DarkGray
+
+
+nmap <leader>p :setlocal paste! paste?<cr>
+
+nnoremap <silent> [s :!  /Users/dparfitt/src/shpotify/spotify prev<CR>
+nnoremap <silent> ]s :!  /Users/dparfitt/src/shpotify/spotify next<CR>
+nnoremap <silent> [S :!  /Users/dparfitt/src/shpotify/spotify status<CR>
 
