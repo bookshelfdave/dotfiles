@@ -27,17 +27,20 @@ Plugin 'mileszs/ack.vim'
 Plugin 'ervandew/supertab'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+"Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'majutsushi/tagbar'
 Plugin 'mhinz/vim-startify'
 Plugin 'regedarek/ZoomWin'
 Plugin 'scrooloose/syntastic'
-Plugin 'rust-lang/rust.vim'
+"Plugin 'rust-lang/rust.vim'
+Plugin 'fnichol/rust.vim'
 Plugin 'Chiel92/vim-autoformat'
 "Plugin 'rizzatti/dash.vim'
 "Plugin 'powerman/vim-plugin-AnsiEsc'
 Plugin 'gcmt/taboo.vim'
 Plugin 'tpope/vim-unimpaired'
+"Plugin 'ap/vim-buftabline'
+Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()
 filetype plugin indent on
@@ -51,6 +54,7 @@ set laststatus=2   " Always show the statusline
 set backspace=2
 set modeline
 set modelines=5
+set incsearch
 
 set ignorecase
 set smartcase
@@ -134,6 +138,7 @@ augroup end
     let g:airline_powerline_fonts = 1
     let g:airline#extensions#tabline#fnamemod = ':p:.'
     let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#tab_nr_type = 1 
     "let g:airline#extensions#tabline#left_sep = ' '
     "let g:airline#extensions#tabline#left_alt_sep = '|'
     "let g:airline#extensions#tabline#fnamemod = ':t'
@@ -260,7 +265,7 @@ nnoremap <expr> O getline('.') =~ '^\s*//' ? 'O<esc>S' : 'O'
 nnoremap <expr> o getline('.') =~ '^\s*//' ? 'o<esc>S' : 'o'
 
 let g:taboo_tab_format = "∴ %P/%f%m "
-let g:taboo_renamed_tab_format = "∴ %P/%f%m "
+let g:taboo_renamed_tab_format = "∴ %P/%l%m "
 
 hi TabLineSel guifg=White guibg=DarkGray
 
@@ -271,3 +276,10 @@ nnoremap <silent> [s :!  /Users/dparfitt/src/shpotify/spotify prev<CR>
 nnoremap <silent> ]s :!  /Users/dparfitt/src/shpotify/spotify next<CR>
 nnoremap <silent> [S :!  /Users/dparfitt/src/shpotify/spotify status<CR>
 
+"let g:buftabline_indicators=1
+let g:buftabline_numbers=1
+"let g:buftabline_separators=1
+
+" highlight searches, clear with C-l 
+set hlsearch
+nnoremap <silent> <C-l> :<C-u>nohlsearch<Cr><C-l>
