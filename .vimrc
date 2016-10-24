@@ -5,6 +5,39 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" install Vundle if it doesn't exist locally
+" Taken from https://github.com/fnichol/dotvim/blob/b954d78cee5ecf0bc565cdee3bd211fed5623c5f/home/.vimrc#L103-L131
+if has("user_commands")
+  " Install Vundle if not already installed
+  let InitialVundleInstall = 0
+
+  " Install Vundle if not installed
+  if !filereadable(expand('~/.vim/bundle/Vundle.vim/README.md'))
+    echo "Installing Vundle..."
+    echo ""
+    silent !mkdir -p ~/.vim/bundle
+    silent !git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+    let InitialVundleInstall = 1
+  endif
+
+  " Load Vundle"
+  filetype off
+  set runtimepath+=~/.vim/bundle/Vundle.vim
+  call vundle#begin()
+  if filereadable(expand('~/.vim/plugins.vim'))
+    source ~/.vim/plugins.vim
+  endif
+  call vundle#end()
+
+  " Run :PluginInstall if this is the initial Vundle installation
+  if InitialVundleInstall == 1
+    echo "Running PluginInstall..."
+    echo ""
+    :PluginInstall
+  endif
+endif
+
+
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -14,14 +47,14 @@ Plugin 'blerins/flattown'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'scrooloose/nerdtree'
 Plugin 'edkolev/tmuxline.vim'
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'airblade/vim-gitgutter'
 "Plugin 'jimenezrick/vimerl'
-Plugin 'vim-erlang/vim-erlang-compiler.git'
-Plugin 'vim-erlang/vim-erlang-omnicomplete'
+"Plugin 'vim-erlang/vim-erlang-compiler.git'
+"Plugin 'vim-erlang/vim-erlang-omnicomplete'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mileszs/ack.vim'
 Plugin 'ervandew/supertab'
@@ -32,18 +65,20 @@ Plugin 'majutsushi/tagbar'
 Plugin 'mhinz/vim-startify'
 Plugin 'regedarek/ZoomWin'
 Plugin 'scrooloose/syntastic'
-"Plugin 'rust-lang/rust.vim'
-Plugin 'fnichol/rust.vim'
+Plugin 'rust-lang/rust.vim'
+"Plugin 'fnichol/rust.vim'
 Plugin 'Chiel92/vim-autoformat'
 "Plugin 'rizzatti/dash.vim'
 "Plugin 'powerman/vim-plugin-AnsiEsc'
 Plugin 'gcmt/taboo.vim'
 Plugin 'tpope/vim-unimpaired'
-"Plugin 'ap/vim-buftabline'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-surround.git'
 
 call vundle#end()
 filetype plugin indent on
+
+
 
 set history=1000
 set t_Co=256
@@ -186,7 +221,7 @@ augroup end
 
     let NERDTreeIgnore = ['\.o$', '\.lo$', '\.swp$']
     let NERDTreeShowHidden=1
-
+    let g:NERDTreeWinPos = "right"
 
     let g:NERDTreeIndicatorMapCustom = {
         \ "Modified"  : "✹",
@@ -272,9 +307,9 @@ hi TabLineSel guifg=White guibg=DarkGray
 
 nmap <leader>p :setlocal paste! paste?<cr>
 
-nnoremap <silent> [s :!  /Users/dparfitt/src/shpotify/spotify prev<CR>
-nnoremap <silent> ]s :!  /Users/dparfitt/src/shpotify/spotify next<CR>
-nnoremap <silent> [S :!  /Users/dparfitt/src/shpotify/spotify status<CR>
+"nnoremap <silent> [s :!  /Users/dparfitt/src/shpotify/spotify prev<CR>
+"nnoremap <silent> ]s :!  /Users/dparfitt/src/shpotify/spotify next<CR>
+"nnoremap <silent> [S :!  /Users/dparfitt/src/shpotify/spotify status<CR>
 
 "let g:buftabline_indicators=1
 let g:buftabline_numbers=1
@@ -283,3 +318,9 @@ let g:buftabline_numbers=1
 " highlight searches, clear with C-l 
 set hlsearch
 nnoremap <silent> <C-l> :<C-u>nohlsearch<Cr><C-l>
+
+
+" Setup Ag
+set grepprg=ag\ --nogroup\ --column\ $*
+set grepformat=%f:%l:%c:%m
+
