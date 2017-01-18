@@ -307,10 +307,6 @@ hi TabLineSel guifg=White guibg=DarkGray
 
 nmap <leader>p :setlocal paste! paste?<cr>
 
-"nnoremap <silent> [s :!  /Users/dparfitt/src/shpotify/spotify prev<CR>
-"nnoremap <silent> ]s :!  /Users/dparfitt/src/shpotify/spotify next<CR>
-"nnoremap <silent> [S :!  /Users/dparfitt/src/shpotify/spotify status<CR>
-
 "let g:buftabline_indicators=1
 let g:buftabline_numbers=1
 "let g:buftabline_separators=1
