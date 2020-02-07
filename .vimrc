@@ -123,7 +123,7 @@ endif
 
 set guioptions-=T  "remove toolbar
 
-#set guifont=Menlo\ for\ Powerline
+"#set guifont=Menlo\ for\ Powerline
 "let g:Powerline_symbols = 'fancy'
 "let g:airline_powerline_fonts = 1
 "let g:airline#extensions#tabline#fnamemod = ':p:.'
