@@ -5,71 +5,51 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+
 " install Vundle if it doesn't exist locally
 " Taken from https://github.com/fnichol/dotvim/blob/b954d78cee5ecf0bc565cdee3bd211fed5623c5f/home/.vimrc#L103-L131
 if has("user_commands")
-  " Install Vundle if not already installed
-  let InitialVundleInstall = 0
+  let InitialPlugInstall = 0
 
-  " Install Vundle if not installed
-  if !filereadable(expand('~/.vim/bundle/Vundle.vim/README.md'))
-    echo "Installing Vundle..."
+  " Install Plug if not installed
+  if !filereadable(expand('~/.vim/autoload/plug.vim'))
+    echo "Installing Plug..."
     echo ""
     silent !mkdir -p ~/.vim/bundle
-    silent !git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    let InitialVundleInstall = 1
-  endif
-
-  " Load Vundle"
-  filetype off
-  set runtimepath+=~/.vim/bundle/Vundle.vim
-  call vundle#begin()
-  if filereadable(expand('~/.vim/plugins.vim'))
-    source ~/.vim/plugins.vim
-  endif
-  call vundle#end()
-
-  " Run :PluginInstall if this is the initial Vundle installation
-  if InitialVundleInstall == 1
-    echo "Running PluginInstall..."
-    echo ""
-    :PluginInstall
+    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    let InitialPlugInstall = 1
   endif
 endif
 
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-Plugin 'gmarik/Vundle.vim'
-Plugin 'blerins/flattown'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'scrooloose/nerdtree'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-fugitive'
-Plugin 'ervandew/supertab'
-Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'mhinz/vim-startify'
-Plugin 'regedarek/ZoomWin'
-Plugin 'gcmt/taboo.vim'
-"Plugin 'tpope/vim-unimpaired'
-"Plugin 'vim-ruby/vim-ruby'
-"Plugin 'tpope/vim-surround.git'
-"Plugin 'ctrlpvim/ctrlp.vim'
-"Plugin 'bling/vim-airline'
-"Plugin 'vim-airline/vim-airline-themes'
-"Plugin 'scrooloose/syntastic'
-"Plugin 'rust-lang/rust.vim'
-"Plugin 'fnichol/rust.vim'
-"Plugin 'Chiel92/vim-autoformat'
-"Plugin 'powerman/vim-plugin-AnsiEsc'
-"Plugin 'Xuyuanp/nerdtree-git-plugin'
-"Plugin 'majutsushi/tagbar'
-
-call vundle#end()
+call plug#begin('~/.vim/plugged')
+Plug 'gmarik/Vundle.vim'
+Plug 'blerins/flattown'
+Plug 'flazz/vim-colorschemes'
+Plug 'scrooloose/nerdtree'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+Plug 'ervandew/supertab'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'mhinz/vim-startify'
+Plug 'regedarek/ZoomWin'
+Plug 'gcmt/taboo.vim'
+"Plug 'tpope/vim-unimpaired'
+"Plug 'vim-ruby/vim-ruby'
+"Plug 'tpope/vim-surround.git'
+"Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'bling/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+"Plug 'scrooloose/syntastic'
+"Plug 'rust-lang/rust.vim'
+"Plug 'fnichol/rust.vim'
+"Plug 'Chiel92/vim-autoformat'
+"Plug 'powerman/vim-plugin-AnsiEsc'
+"Plug 'Xuyuanp/nerdtree-git-plugin'
+"Plug 'majutsushi/tagbar'
+call plug#end()
 
 filetype plugin indent on
 filetype indent on
@@ -178,18 +158,6 @@ nmap <leader>n :setlocal number! number?<cr>
 
 "autocmd vimenter * if !argc() | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
-
-
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 0
 
 
 silent! nmap <C-w>z :ZoomWin<CR>
