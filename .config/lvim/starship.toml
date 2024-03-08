@@ -1,0 +1,49 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+
+# Which is equivalent to
+format = """vm:$hostname\
+$kubernetes\
+$directory\
+$vcsh\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$hg_branch\
+$docker_context\
+$package\
+$golang\
+$python\
+$terraform\
+$sudo\
+$line_break\
+$status\
+$character"""
+
+[character]
+success_symbol = '[❯](bold green)'
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true
+
+[golang]
+disabled = false
+
+[hostname]
+ssh_only = false
+#ssh_symbol = ''
+#trim_at = '.'
+style = 'bold red'
+disabled = false
+
+[directory]
+truncation_length =3
+truncate_to_repo=false
+truncation_symbol = '…/'
