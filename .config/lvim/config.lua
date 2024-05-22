@@ -2,21 +2,134 @@
 -- Video Tutorials: https://www.youtube.com/watch?v=sFA9kX-Ud_c&list=PLhoH5vyxr6QqGu0i7tt_XoVK9v-KvZ3m6
 -- Forum: https://www.reddit.com/r/lunarvim/
 -- Discord: https://discord.com/invite/Xb9B4Ny
+
 lvim.plugins = {
-  { "lunarvim/colorschemes" },
+  -- Enable `ae` to target entire buffer (ex. =ae for format the entire buffer)
+  { "kana/vim-textobj-user",  priority = 1001 },
+  { "kana/vim-textobj-entire" },
+
+
+  -- hit enter in normal mode to zoom a buffer
+  {
+    'nyngwang/NeoZoom.lua',
+    config = function()
+      require('neo-zoom').setup {
+        popup = { enabled = true }, -- this is the default.
+        -- NOTE: Add popup-effect (replace the window on-zoom with a `[No Name]`).
+        -- EXPLAIN: This improves the performance, and you won't see two
+        --          identical buffers got updated at the same time.
+        -- popup = {
+        --   enabled = true,
+        --   exclude_filetypes = {},
+        --   exclude_buftypes = {},
+        -- },
+        exclude_buftypes = { 'terminal' },
+        -- exclude_filetypes = { 'lspinfo', 'mason', 'lazy', 'fzf', 'qf' },
+        winopts = {
+          offset = {
+            -- NOTE: omit `top`/`left` to center the floating window vertically/horizontally.
+            --top = 0,
+            --left = 0.17,
+            width = 1,
+            height = 1,
+          },
+          -- NOTE: check :help nvim_open_win() for possible border values.
+          border = 'thicc', -- this is a preset, try it :)
+        },
+        presets = {
+          {
+            -- NOTE: regex pattern can be used here!
+            filetypes = { 'dapui_.*', 'dap-repl' },
+            winopts = {
+              offset = { top = 0.02, left = 0.02, width = 0.74, height = 0.25 },
+            },
+          },
+          {
+            filetypes = { 'markdown' },
+            callbacks = {
+              function() vim.wo.wrap = true end,
+            },
+          },
+        },
+      }
+      vim.keymap.set('n', '<CR>', function()
+        vim.cmd('NeoZoomToggle')
+      end, { silent = true, nowait = true })
+    end
+  },
+
+
+  { "phanviet/vim-monokai-pro" },
 
   {
     "cpea2506/one_monokai.nvim",
+    config = function()
+      require('one_monokai').setup {
+      }
+    end
   },
 
+
+
+  -- see keybindings below
   {
-    "stevearc/dressing.nvim",
+    "rmagatti/goto-preview",
     config = function()
-      require("dressing").setup({
-        input = { enabled = false },
+      require('goto-preview').setup {
+        width = 120,             -- Width of the floating window
+        height = 25,             -- Height of the floating window
+        default_mappings = true, -- Bind default mappings
+        debug = false,           -- Print debug information
+        opacity = nil,           -- 0-100 opacity level of the floating window where 100 is fully transparent.
+        post_open_hook = nil     -- A function taking two arguments, a buffer and a window to be ran as a hook.
+        --
+        -- nnoremap gpd <cmd>lua require('goto-preview').goto_preview_definition()<CR>
+        -- nnoremap gpt <cmd>lua require('goto-preview').goto_preview_type_definition()<CR>
+        -- nnoremap gpi <cmd>lua require('goto-preview').goto_preview_implementation()<CR>
+        -- nnoremap gpD <cmd>lua require('goto-preview').goto_preview_declaration()<CR>
+        -- nnoremap gP <cmd>lua require('goto-preview').close_all_win()<CR>
+        -- nnoremap gpr <cmd>lua require('goto-preview').goto_preview_references()<CR>
+      }
+    end
+  },
+
+
+  {
+    "simrat39/symbols-outline.nvim",
+    config = function()
+      require('symbols-outline').setup()
+    end
+  },
+
+  -- space lq :-)
+  {
+    "kevinhwang91/nvim-bqf",
+    event = { "BufRead", "BufNew" },
+    config = function()
+      require("bqf").setup({
+        auto_enable = true,
+        preview = {
+          win_height = 12,
+          win_vheight = 12,
+          delay_syntax = 80,
+          border_chars = { "┃", "┃", "━", "━", "┏", "┓", "┗", "┛", "█" },
+        },
+        func_map = {
+          vsplit = "",
+          ptogglemode = "z,",
+          stoggleup = "",
+        },
+        filter = {
+          fzf = {
+            action_for = { ["ctrl-s"] = "split" },
+            extra_opts = { "--bind", "ctrl-o:toggle-all", "--prompt", "> " },
+          },
+        },
       })
     end,
-  },
+  }, --
+
+  { 'nvim-telescope/telescope-ui-select.nvim' },
 
   {
     "nvim-pack/nvim-spectre",
@@ -27,29 +140,58 @@ lvim.plugins = {
   },
 
   {
-    "folke/trouble.nvim",
-    cmd = "TroubleToggle",
+    "folke/persistence.nvim",
+    event = "BufReadPre", -- this will only start session saving when an actual file was opened
+    opts = {}
   },
+
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+
+  {
+    'kosayoda/nvim-lightbulb',
+    config = function()
+      require("nvim-lightbulb").setup({
+        autocmd = { enabled = true }
+      })
+    end
+  },
+
 }
 
-lvim.transparent_window = true
-lvim.colorscheme = "one_monokai"
-lvim.format_on_save.enabled = true
-lvim.builtin.lualine.options.theme = "one_monokai"
---lvim.builtin.lualine.sections.lualine_b = { "lsp_progress" }
-vim.opt.relativenumber = true
+-- start telescope-ui-select
+require("telescope").load_extension("ui-select")
+
+
+-- Spectre stuff
+lvim.keys.normal_mode["<leader>S"] = '<cmd>lua require("spectre").toggle()<CR>'
+lvim.keys.normal_mode["<leader>Sw"] = '<cmd>lua require("spectre").open_visual({select_word=true})<CR>'
+lvim.keys.visual_mode["<leader>Sw"] = '<esc><cmd>lua require("spectre").open_visual()<CR>'
+lvim.keys.normal_mode["<leader>Sp"] = '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>'
+
+
+-- Persistence stuff
+lvim.builtin.which_key.mappings["P"] = {
+  name = "Projects",
+  s = { '<cmd>lua require("persistence").load()<cr>', "Restore session from CWD" },
+  l = { '<cmd>lua require("persistence").load({ last = true })<cr>', "Restore last session" },
+  d = { '<cmd>lua require("persistence").stop()<cr>', "Don't save session" },
+}
+
+
+lvim.builtin.which_key.mappings["ly"] = {
+  "<cmd>SymbolsOutline<cr>", "Symbol outline"
+}
+
 
 lvim.keys.normal_mode["gt"] = ":BufferLineCycleNext<CR>"
 lvim.keys.normal_mode["gT"] = ":BufferLineCyclePrev<CR>"
 
 
-lvim.builtin.which_key.mappings["t"] = {
-  name = "Trouble",
-  r = { "<cmd>Trouble lsp_references<cr>", "References" },
-  f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
-  d = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Diagnostics" },
-  q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
-  l = { "<cmd>Trouble loclist<cr>", "LocationList" },
-  c = { "<cmd>TroubleClose<cr>", "Close" },
-  w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics" },
-}
+--lvim.builtin.lualine.sections.lualine_b = { "lsp_progress" }
+lvim.builtin.autopairs.active = false
+lvim.builtin.lualine.options.theme = "iceberg_dark"
+lvim.colorscheme = "catppuccin-mocha"
+lvim.format_on_save.enabled = true
+lvim.format_on_save.enabled = true
+vim.opt.relativenumber = true
+vim.opt.timeoutlen = 250 -- or 500 (Default: 1000)
