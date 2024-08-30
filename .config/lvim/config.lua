@@ -70,7 +70,6 @@ lvim.plugins = {
   },
 
 
-
   -- see keybindings below
   {
     "rmagatti/goto-preview",
@@ -192,7 +191,7 @@ lvim.plugins = {
     event = "BufRead",
     config = function()
       require("hop").setup()
-      vim.api.nvim_set_keymap("n", "s", ":HopChar2<cr>", { silent = true })
+      vim.api.nvim_set_keymap("n", "s", ":HopLineStart<cr>", { silent = true })
       vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
     end,
   },
@@ -215,6 +214,14 @@ lvim.plugins = {
     end,
   },
 
+
+  {
+    "HampusHauffman/block.nvim",
+    config = function()
+      require("block").setup({})
+    end
+  },
+
 }
 
 -- enable treesitter integration
@@ -223,11 +230,22 @@ lvim.builtin.treesitter.matchup.enable = true
 -- start telescope-ui-select
 require("telescope").load_extension("ui-select")
 
+lvim.builtin.which_key.mappings["o"] = {
+  name = "Hopping",
+  s = { '<cmd>HopLineStart<cr>', "Hop line start" },
+  S = { '<cmd>HopWord<cr>', "Hop word" },
+  l = { '<cmd>HopLine<cr>', "Hop line" },
+  p = { '<cmd>HopPattern<cr>', "Hop pattern" },
+
+
+}
+
 -- Spectre stuff
 lvim.keys.normal_mode["<leader>S"] = '<cmd>lua require("spectre").toggle()<CR>'
 lvim.keys.normal_mode["<leader>Sw"] = '<cmd>lua require("spectre").open_visual({select_word=true})<CR>'
 lvim.keys.visual_mode["<leader>Sw"] = '<esc><cmd>lua require("spectre").open_visual()<CR>'
 lvim.keys.normal_mode["<leader>Sp"] = '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>'
+
 
 
 -- Ranger stuff
@@ -246,7 +264,8 @@ lvim.builtin.which_key.mappings["t"] = {
   name = "Toggle",
   n = { '<cmd>set number!<cr>', "Line Numbers" },
   r = { '<cmd>set invrelativenumber<cr>', "Relative Line Numbers" },
-  i = { '<cmd>lua lvim.builtin.indentlines.active = not lvim.builtin.indentlines.active<cr>', "Indent Lines" },
+  b = { '<cmd>Block<cr>', "Blocks" },
+  l = { '<cmd>IndentBlanklineToggle<cr>', "Indent lines" },
 }
 
 
@@ -263,13 +282,10 @@ lvim.keys.normal_mode["gT"] = ":BufferLineCyclePrev<CR>"
 lvim.builtin.autopairs.active = false
 lvim.builtin.lualine.options.theme = "iceberg_dark"
 lvim.colorscheme = "catppuccin-mocha"
-lvim.format_on_save.enabled = true
-lvim.format_on_save.enabled = true
---vim.opt.relativenumber = true
-vim.opt.timeoutlen = 250 -- or 500 (Default: 1000)
 
--- don't show indentation lines
-lvim.builtin.indentlines.active = false
+lvim.format_on_save.enabled = true
+
+vim.opt.timeoutlen = 250 -- or 500 (Default: 1000)
 
 -- toggle with space t n
 vim.opt.number = false
@@ -277,3 +293,7 @@ vim.opt.number = false
 -- Roboto Mono Nerd Font uses a dumb looking separator
 -- https://github.com/folke/which-key.nvim
 lvim.builtin.which_key.setup.icons.separator = '»'
+lvim.builtin.which_key.setup.icons.group = ""
+
+lvim.builtin.nvimtree.setup.view.side = "right"
+lvim.builtin.indentlines.options.enabled = false
