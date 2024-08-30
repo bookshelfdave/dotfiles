@@ -156,11 +156,72 @@ lvim.plugins = {
     end
   },
 
+  {
+    "tpope/vim-fugitive",
+    cmd = {
+      "G",
+      "Git",
+      "Gdiffsplit",
+      "Gread",
+      "Gwrite",
+      "Ggrep",
+      "GMove",
+      "GDelete",
+      "GBrowse",
+      "GRemove",
+      "GRename",
+      "Glgrep",
+      "Gedit"
+    },
+    ft = { "fugitive" }
+  },
+
+  -- {
+  --   "karb94/neoscroll.nvim",
+  --   config = function()
+  --     require('neoscroll').setup({})
+  --   end
+  -- },
+
+  {
+    'smoka7/hop.nvim',
+    version = "*",
+    opts = {
+      keys = 'etovxqpdygfblzhckisuran'
+    },
+    event = "BufRead",
+    config = function()
+      require("hop").setup()
+      vim.api.nvim_set_keymap("n", "s", ":HopChar2<cr>", { silent = true })
+      vim.api.nvim_set_keymap("n", "S", ":HopWord<cr>", { silent = true })
+    end,
+  },
+
+  {
+    "kevinhwang91/rnvimr",
+    cmd = "RnvimrToggle",
+    config = function()
+      vim.g.rnvimr_draw_border = 1
+      vim.g.rnvimr_pick_enable = 1
+      vim.g.rnvimr_bw_enable = 1
+    end,
+  },
+
+  {
+    "andymass/vim-matchup",
+    event = "CursorMoved",
+    config = function()
+      vim.g.matchup_matchparen_offscreen = { method = "popup" }
+    end,
+  },
+
 }
+
+-- enable treesitter integration
+lvim.builtin.treesitter.matchup.enable = true
 
 -- start telescope-ui-select
 require("telescope").load_extension("ui-select")
-
 
 -- Spectre stuff
 lvim.keys.normal_mode["<leader>S"] = '<cmd>lua require("spectre").toggle()<CR>'
@@ -169,12 +230,23 @@ lvim.keys.visual_mode["<leader>Sw"] = '<esc><cmd>lua require("spectre").open_vis
 lvim.keys.normal_mode["<leader>Sp"] = '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>'
 
 
+-- Ranger stuff
+lvim.keys.normal_mode["<leader>R"] = '<cmd>RnvimrToggle<CR>'
+
 -- Persistence stuff
 lvim.builtin.which_key.mappings["P"] = {
   name = "Projects",
   s = { '<cmd>lua require("persistence").load()<cr>', "Restore session from CWD" },
   l = { '<cmd>lua require("persistence").load({ last = true })<cr>', "Restore last session" },
   d = { '<cmd>lua require("persistence").stop()<cr>', "Don't save session" },
+}
+
+
+lvim.builtin.which_key.mappings["t"] = {
+  name = "Toggle",
+  n = { '<cmd>set number!<cr>', "Line Numbers" },
+  r = { '<cmd>set invrelativenumber<cr>', "Relative Line Numbers" },
+  i = { '<cmd>lua lvim.builtin.indentlines.active = not lvim.builtin.indentlines.active<cr>', "Indent Lines" },
 }
 
 
@@ -193,5 +265,15 @@ lvim.builtin.lualine.options.theme = "iceberg_dark"
 lvim.colorscheme = "catppuccin-mocha"
 lvim.format_on_save.enabled = true
 lvim.format_on_save.enabled = true
-vim.opt.relativenumber = true
+--vim.opt.relativenumber = true
 vim.opt.timeoutlen = 250 -- or 500 (Default: 1000)
+
+-- don't show indentation lines
+lvim.builtin.indentlines.active = false
+
+-- toggle with space t n
+vim.opt.number = false
+
+-- Roboto Mono Nerd Font uses a dumb looking separator
+-- https://github.com/folke/which-key.nvim
+lvim.builtin.which_key.setup.icons.separator = '»'
