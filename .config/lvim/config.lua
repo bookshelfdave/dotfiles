@@ -221,6 +221,11 @@ lvim.plugins = {
       require("block").setup({})
     end
   },
+  {
+    "nvim-zh/colorful-winsep.nvim",
+    config = true,
+    event = { "WinLeave" },
+  },
 
 }
 
@@ -247,6 +252,12 @@ lvim.keys.visual_mode["<leader>Sw"] = '<esc><cmd>lua require("spectre").open_vis
 lvim.keys.normal_mode["<leader>Sp"] = '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>'
 
 
+lvim.builtin.which_key.mappings["S"] = {
+  name = "Spectre",
+  s = { '<cmd>lua require("spectre").toggle()<CR>', "Spectre" },
+  w = { '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', "Open Visual" },
+  p = { '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', "Select word" },
+}
 
 -- Ranger stuff
 lvim.keys.normal_mode["<leader>R"] = '<cmd>RnvimrToggle<CR>'
@@ -293,7 +304,11 @@ vim.opt.number = false
 -- Roboto Mono Nerd Font uses a dumb looking separator
 -- https://github.com/folke/which-key.nvim
 lvim.builtin.which_key.setup.icons.separator = '»'
-lvim.builtin.which_key.setup.icons.group = ""
+lvim.builtin.which_key.setup.icons.group = ":"
 
 lvim.builtin.nvimtree.setup.view.side = "right"
 lvim.builtin.indentlines.options.enabled = false
+
+lvim.builtin.which_key.mappings["W"] = {
+  "<cmd>noautocmd w<CR>", "Force save"
+}
